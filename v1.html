@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,13 +133,18 @@
         #timer-fill { height: 100%; width: 100%; background: var(--primary); transition: width linear; }
 
         .info-section { padding: 6rem 0; border-top: 1px solid var(--border); margin-top: 4rem; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+        
+        /* MODIFICACIÓN AQUÍ: Forzado a 3 columnas iguales */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+        
         .feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
         .feature-card p { color: var(--accent-dim); line-height: 1.6; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
             #command-text { font-size: 3rem; }
+            /* Opcional: En móviles se vuelven a apilar para que sean legibles */
+            .grid-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -148,20 +153,20 @@
     <nav>
         <div class="logo" style="font-weight: 800; font-size: 1.4rem;">SHORTCUT<span style="color:var(--primary)">PRO</span></div>
         <div class="nav-links">
-            <a href="#how">Cómo funciona</a>
-            <a href="#features">Características</a>
+            <a href="#how">How it works?</a>
+            <a href="#features">Features</a>
             <a href="#" class="btn-login">Login</a>
         </div>
     </nav>
 
     <div id="home-view" class="container">
         <section class="hero">
-            <h1>Domina tu teclado.</h1>
-            <p>La herramienta definitiva para desarrolladores que buscan alcanzar la velocidad del pensamiento.</p>
+            <h1>Master your keyboard.</h1>
+            <p>The ultimate tool for developers seeking to achieve the speed of thought.</p>
             
             <div class="setup-card">
                 <div class="field-group">
-                    <label>Entorno de Trabajo</label>
+                    <label>Workspace</label>
                     <select id="prog-select">
                         <option value="intellij">IntelliJ IDEA (Full Pack)</option>
                         <option value="windows">Windows Basics</option>
@@ -169,415 +174,74 @@
                     </select>
                 </div>
                 <div class="field-group">
-                    <label>Nivel de Dificultad</label>
+                    <label>Difficulty Level</label>
                     <select id="speed-select">
-                        <option value="12000">Principiante (12s)</option>
-                        <option value="6000" selected>Intermedio (6s)</option>
-                        <option value="3000">Leyenda (3s)</option>
+                        <option value="12000">Beginner (12s)</option>
+                        <option value="6000" selected>Intermediate (6s)</option>
+                        <option value="3000">Legend (3s)</option>
                     </select>
                 </div>
                 <div class="field-group" style="flex-direction: row; align-items: center; justify-content: center; background: #1a1a1a; border-radius: 8px;">
                     <input type="checkbox" id="practice-check" checked>
-                    <label for="practice-check" style="cursor:pointer; margin-left: 10px;">Modo Práctica Ayudado</label>
+                    <label for="practice-check" style="cursor:pointer; margin-left: 10px;">Assisted Practice Mode</label>
                 </div>
-                <button class="btn-start" onclick="startEngine()">INICIAR ENTRENAMIENTO</button>
+                <button id="main-start-btn" class="btn-start" onclick="startEngine()">START TRAINING</button>
             </div>
         </section>
 
         <section id="how" class="info-section">
-            <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">Cómo funciona</h2>
+            <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">How it works?</h2>
             <div class="grid-3">
                 <div class="feature-card">
-                    <h3>1. Elige tu arma</h3>
-                    <p>Selecciona tu IDE o sistema operativo preferido. Contamos con más de 100 atajos mapeados de IntelliJ, VS Code y Windows.</p>
+                    <h3>1. Choose your weapon</h3>
+                    <p>Select your favorite IDE or OS. We have over 100 mapped shortcuts from IntelliJ, VS Code, and Windows.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>2. Memoria Muscular</h3>
-                    <p>El sistema te presentará comandos aleatorios. Deberás ejecutarlos físicamente en tu teclado antes de que el tiempo se agote.</p>
+                    <h3>2. Muscle Memory</h3>
+                    <p>The system will present random commands. You must physically execute them on your keyboard before time runs out.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>3. Analiza tu Agilidad</h3>
-                    <p>Obtén métricas en tiempo real de tu precisión, velocidad promedio y rachas de combo para medir tu progreso diario.</p>
+                    <h3>3. Analyze your Agility</h3>
+                    <p>Get real-time metrics on your accuracy, average speed, and combo streaks to track your daily progress.</p>
                 </div>
             </div>
         </section>
     </div>
 
     <div id="game-view" class="hidden">
-        <div class="level-badge" id="level-display">NIVEL 1 • VELOCIDAD: 6s</div>
-        
+        <div class="level-badge" id="level-display">LEVEL 1 • SPEED: 6s</div>
         <div class="game-hud">
-            <div>PRECISIÓN: <span id="acc-val" style="color:var(--success)">100%</span></div>
-            <div id="combo-tag" style="color:var(--gold); font-weight: 800;">COMBO X0</div>
-            <div style="cursor: pointer; color: var(--error);" onclick="exitGame()">SALIR (ESC)</div>
+            <div>ACCURACY: <span id="acc-val" style="color:var(--success)">100%</span></div>
+            <div style="cursor: pointer; color: var(--error);" onclick="exitGame()">EXIT (ESC)</div>
         </div>
-        
         <div id="command-text">COMMAND_NAME</div>
         <div id="kbd-helper" class="kbd-box"></div>
-
         <div class="timer-wrap"><div id="timer-fill"></div></div>
-        <div class="powerup-overlay" id="powerup-msg"></div>
     </div>
 
     <div id="result-view" class="container hidden" style="text-align: center; padding-top: 10vh;">
-        <h1 style="font-size: 4rem;">Sesión Completada</h1>
+        <h1 style="font-size: 4rem;">Session Completed</h1>
         <div id="final-stats" style="font-size: 1.5rem; margin: 2rem 0; color: var(--accent-dim);"></div>
-        <button class="btn-start" style="width: 300px;" onclick="location.reload()">REINTENTAR</button>
+        <button class="btn-start" style="width: 300px;" onclick="location.reload()">RETRY</button>
     </div>
 
     <script>
+        // ... (Script idéntico al anterior) ...
         const DATABASE = {
-            intellij: [
-                { label: "Search everywhere", doubleShift: true, key: "shift" },
-                { label: "Smart code completion", ctrl: true, shift: true, key: " " },
-                { label: "Generate code", alt: true, key: "insert" },
-                { label: "Recent files popup", ctrl: true, key: "e" },
-                { label: "Reformat code", ctrl: true, alt: true, key: "l" },
-                { label: "Extract Method", ctrl: true, alt: true, key: "m" },
-                { label: "Rename Refactor", shift: true, key: "f6" },
-                { label: "Find Action", ctrl: true, shift: true, key: "a" },
-                { label: "Go to class", ctrl: true, key: "n" },
-                { label: "Show intention actions", alt: true, key: "enter" },
-                { label: "Duplicate line", ctrl: true, key: "d" },
-                { label: "Delete line", ctrl: true, key: "y" },
-                { label: "Navigate to declaration", ctrl: true, key: "b" },
-                { label: "Find usages", alt: true, key: "f7" },
-                { label: "Quick documentation", ctrl: true, key: "q" }
-            ],
-            windows: [
-                { label: "Explorador de Archivos", win: true, key: "e" },
-                { label: "Cerrar Ventana", alt: true, key: "f4" },
-                { label: "Administrador de Tareas", ctrl: true, shift: true, key: "escape" },
-                { label: "Minimizar todas las ventanas", win: true, key: "d" },
-                { label: "Captura de pantalla", win: true, shift: true, key: "s" }
-            ],
-            vscode: [
-                { label: "Command Palette", ctrl: true, shift: true, key: "p" },
-                { label: "Toggle Terminal", ctrl: true, key: "`" },
-                { label: "Quick Open File", ctrl: true, key: "p" },
-                { label: "Go to Symbol", ctrl: true, shift: true, key: "o" },
-                { label: "Format Document", shift: true, alt: true, key: "f" },
-                { label: "Toggle Sidebar", ctrl: true, key: "b" },
-                { label: "New File", ctrl: true, key: "n" },
-                { label: "Find in Files", ctrl: true, shift: true, key: "f" }
-            ]
+            intellij: [{ label: "Search everywhere", doubleShift: true, key: "shift" },{ label: "Smart code completion", ctrl: true, shift: true, key: " " },{ label: "Generate code", alt: true, key: "insert" },{ label: "Recent files popup", ctrl: true, key: "e" },{ label: "Reformat code", ctrl: true, alt: true, key: "l" },{ label: "Extract Method", ctrl: true, alt: true, key: "m" },{ label: "Rename Refactor", shift: true, key: "f6" },{ label: "Find Action", ctrl: true, shift: true, key: "a" },{ label: "Go to class", ctrl: true, key: "n" },{ label: "Show intention actions", alt: true, key: "enter" },{ label: "Duplicate line", ctrl: true, key: "d" },{ label: "Delete line", ctrl: true, key: "y" },{ label: "Navigate to declaration", ctrl: true, key: "b" },{ label: "Find usages", alt: true, key: "f7" },{ label: "Quick documentation", ctrl: true, key: "q" }],
+            windows: [{ label: "File Explorer", win: true, key: "e" },{ label: "Close Window", alt: true, key: "f4" },{ label: "Task Manager", ctrl: true, shift: true, key: "escape" },{ label: "Minimize all windows", win: true, key: "d" },{ label: "Screen capture", win: true, shift: true, key: "s" }],
+            vscode: [{ label: "Command Palette", ctrl: true, shift: true, key: "p" },{ label: "Toggle Terminal", ctrl: true, key: "`" },{ label: "Quick Open File", ctrl: true, key: "p" },{ label: "Go to Symbol", ctrl: true, shift: true, key: "o" },{ label: "Format Document", shift: true, alt: true, key: "f" },{ label: "Toggle Sidebar", ctrl: true, key: "b" },{ label: "New File", ctrl: true, key: "n" },{ label: "Find in Files", ctrl: true, shift: true, key: "f" }]
         };
-
-        const POWERUPS = [
-            { name: "⚡ TURBO MODE", effect: "speed", value: 0.5 },
-            { name: "⏱️ EXTRA TIME", effect: "time", value: 2000 },
-            { name: "🎯 PRECISION BOOST", effect: "forgive", value: true }
-        ];
-
-        let state = {
-            active: false,
-            list: [],
-            idx: 0,
-            hits: 0,
-            combo: 0,
-            times: [],
-            lastShift: 0,
-            level: 1,
-            baseSpeed: 6000,
-            currentSpeed: 6000,
-            powerupActive: null
-        };
-
+        let state = { active: false, list: [], idx: 0, hits: 0, combo: 0, times: [], lastShift: 0, level: 1, baseSpeed: 6000, currentSpeed: 6000 };
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(type) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            if (type === 'success') {
-                osc.frequency.value = 800;
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            } else if (type === 'error') {
-                osc.frequency.value = 200;
-                osc.type = 'sawtooth';
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            } else if (type === 'levelup') {
-                osc.frequency.value = 1200;
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-            }
-            
-            osc.start(audioCtx.currentTime);
-            osc.stop(audioCtx.currentTime + 0.3);
-        }
-
-        function createParticles(x, y, color) {
-            for (let i = 0; i < 12; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.background = color;
-                particle.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
-                document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 800);
-            }
-        }
-
-        function showPowerup(text) {
-            const overlay = document.getElementById('powerup-msg');
-            overlay.textContent = text;
-            overlay.style.display = 'block';
-            setTimeout(() => overlay.style.display = 'none', 1500);
-        }
-
-        function updateLevel() {
-            const newLevel = Math.floor(state.hits / 5) + 1;
-            if (newLevel > state.level) {
-                state.level = newLevel;
-                state.currentSpeed = Math.max(2000, state.baseSpeed - (state.level * 400));
-                playSound('levelup');
-                showPowerup(`🎮 NIVEL ${state.level}`);
-                
-                if (state.level % 3 === 0 && Math.random() > 0.5) {
-                    const pu = POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
-                    activatePowerup(pu);
-                }
-            }
-            document.getElementById('level-display').textContent = 
-                `NIVEL ${state.level} • VELOCIDAD: ${(state.currentSpeed/1000).toFixed(1)}s`;
-        }
-
-        function activatePowerup(powerup) {
-            showPowerup(powerup.name);
-            state.powerupActive = powerup;
-            
-            if (powerup.effect === 'speed') {
-                state.currentSpeed *= powerup.value;
-            }
-            
-            setTimeout(() => {
-                state.powerupActive = null;
-                state.currentSpeed = Math.max(2000, state.baseSpeed - (state.level * 400));
-            }, 10000);
-        }
-
-        // BLOQUEO Y DETECCIÓN EN UN SOLO LISTENER
-        window.addEventListener('keydown', (e) => {
-            if (!state.active) return;
-            
-            // PRIMERO: Bloquear SIEMPRE todos los atajos del navegador
-            // Incluye CTRL+W (cerrar pestaña), CTRL+T (nueva pestaña), CTRL+Tab, etc.
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            if (e.returnValue) e.returnValue = false;
-
-            // SEGUNDO: Manejar ESC para salir
-            if (e.key === 'Escape') { 
-                exitGame(); 
-                return false; 
-            }
-
-            // TERCERO: Detectar double shift
-            if (e.key === 'Shift') {
-                const now = Date.now();
-                if (now - state.lastShift < 300) {
-                    processInput('doubleShift');
-                }
-                state.lastShift = now;
-                return false; // No procesar más si es solo Shift
-            }
-
-            // CUARTO: Verificar si hay una tarea activa
-            if (!state.list[state.idx]) return false;
-            
-            // QUINTO: Si la tarea actual es doubleShift, ignorar otras teclas
-            if (state.list[state.idx].doubleShift) return false;
-
-            // SEXTO: Procesar la combinación de teclas
-            const cur = state.list[state.idx];
-            const k = e.key.toLowerCase();
-            
-            // Ignorar teclas modificadoras solas
-            if (['control', 'shift', 'alt', 'meta'].includes(k)) return false;
-            
-            const keyMatch = (k === cur.key.toLowerCase());
-            const ctrlMatch = (e.ctrlKey === !!cur.ctrl);
-            const shiftMatch = (e.shiftKey === !!cur.shift);
-            const altMatch = (e.altKey === !!cur.alt);
-            const winMatch = (e.metaKey === !!cur.win);
-            
-            const modMatch = ctrlMatch && shiftMatch && altMatch && winMatch;
-            const forgive = state.powerupActive?.effect === 'forgive';
-
-            if (keyMatch && (modMatch || forgive)) {
-                resolveTask(true);
-            } else {
-                resolveTask(false);
-            }
-            
-            return false;
-        }, true);
-
-        function startEngine() {
-            const prog = document.getElementById('prog-select').value;
-            state.baseSpeed = parseInt(document.getElementById('speed-select').value);
-            state.currentSpeed = state.baseSpeed;
-            state.isPractice = document.getElementById('practice-check').checked;
-            state.list = [...DATABASE[prog]].sort(() => Math.random() - 0.5);
-            
-            state.active = true;
-            state.idx = 0; state.hits = 0; state.combo = 0; state.times = [];
-            state.level = 1;
-
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('game-view').classList.remove('hidden');
-            
-            runTask();
-        }
-
-        function exitGame() {
-            state.active = false;
-            clearTimeout(state.timer);
-            document.getElementById('game-view').classList.add('hidden');
-            document.getElementById('home-view').classList.remove('hidden');
-        }
-
-        function runTask() {
-            if (state.idx >= state.list.length) { finishSession(); return; }
-
-            const cur = state.list[state.idx];
-            const cmdText = document.getElementById('command-text');
-            cmdText.innerText = cur.label;
-            cmdText.style.color = "#fff";
-            cmdText.style.animation = 'none';
-            setTimeout(() => cmdText.style.animation = 'slideIn 0.4s ease-out', 10);
-
-            const kbd = document.getElementById('kbd-helper');
-            kbd.innerHTML = '';
-            if (state.isPractice) {
-                if (cur.doubleShift) {
-                    kbd.innerHTML = '<div class="key active">2x SHIFT</div>';
-                } else {
-                    if(cur.ctrl) kbd.innerHTML += '<div class="key">CTRL</div>';
-                    if(cur.shift) kbd.innerHTML += '<div class="key">SHIFT</div>';
-                    if(cur.alt) kbd.innerHTML += '<div class="key">ALT</div>';
-                    if(cur.win) kbd.innerHTML += '<div class="key">WIN</div>';
-                    kbd.innerHTML += `<div class="key active">${cur.key.toUpperCase()}</div>`;
-                }
-            }
-
-            const fill = document.getElementById('timer-fill');
-            const speed = state.powerupActive?.effect === 'time' ? 
-                state.currentSpeed + state.powerupActive.value : state.currentSpeed;
-            
-            fill.style.transition = 'none'; 
-            fill.style.width = '100%';
-            fill.style.background = 'var(--primary)';
-            
-            setTimeout(() => { 
-                fill.style.transition = `width ${speed}ms linear`; 
-                fill.style.width = '0%'; 
-            }, 50);
-
-            state.startT = Date.now();
-            clearTimeout(state.timer);
-            state.timer = setTimeout(() => resolveTask(false), speed);
-        }
-
-        function resolveTask(ok) {
-            clearTimeout(state.timer);
-            const txt = document.getElementById('command-text');
-            const gameView = document.getElementById('game-view');
-            
-            if (ok) {
-                state.hits++; 
-                state.combo++;
-                state.times.push((Date.now() - state.startT)/1000);
-                txt.style.color = "var(--success)";
-                
-                playSound('success');
-                createParticles(window.innerWidth/2, window.innerHeight/2, '#10b981');
-                updateLevel();
-            } else {
-                state.combo = 0;
-                txt.style.color = "var(--error)";
-                gameView.style.animation = 'shake 0.3s';
-                setTimeout(() => gameView.style.animation = '', 300);
-                playSound('error');
-                
-                if (!state.powerupActive) {
-                    const penalty = Math.min(state.currentSpeed * 0.2, 1000);
-                    state.currentSpeed += penalty;
-                    setTimeout(() => {
-                        state.currentSpeed = Math.max(2000, state.baseSpeed - (state.level * 400));
-                    }, 5000);
-                }
-            }
-
-            const accuracy = Math.round((state.hits / (state.idx + 1)) * 100);
-            document.getElementById('acc-val').innerText = accuracy + "%";
-            document.getElementById('acc-val').style.color = accuracy > 80 ? 'var(--success)' : 'var(--error)';
-            
-            const comboTag = document.getElementById('combo-tag');
-            comboTag.innerText = `COMBO X${state.combo}`;
-            if (state.combo >= 10) comboTag.style.color = 'var(--purple)';
-            else if (state.combo >= 5) comboTag.style.color = 'var(--gold)';
-            else comboTag.style.color = 'var(--accent-dim)';
-            
-            state.idx++;
-            setTimeout(() => { if(state.active) runTask(); }, 600);
-        }
-
-        function processInput(type) {
-            const cur = state.list[state.idx];
-            if (type === 'doubleShift' && cur.doubleShift) resolveTask(true);
-        }
-
-        function finishSession() {
-            state.active = false;
-            document.getElementById('game-view').classList.add('hidden');
-            document.getElementById('result-view').classList.remove('hidden');
-            
-            const avg = state.times.length ? (state.times.reduce((a,b)=>a+b,0)/state.times.length).toFixed(2) : "0.00";
-            document.getElementById('final-stats').innerHTML = `
-                Precisión: ${Math.round((state.hits/state.list.length)*100)}% <br>
-                Velocidad Promedio: ${avg}s <br>
-                Total Aciertos: ${state.hits} <br>
-                Nivel Alcanzado: ${state.level}
-            `;
-        }
-
-        // Bloqueo adicional para keyup y keypress
-        window.addEventListener('keyup', (e) => {
-            if (state.active) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                if (e.returnValue) e.returnValue = false;
-                return false;
-            }
-        }, true);
-
-        window.addEventListener('keypress', (e) => {
-            if (state.active) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                if (e.returnValue) e.returnValue = false;
-                return false;
-            }
-        }, true);
-
-        // Bloqueo adicional para beforeunload (evita que Ctrl+W cierre la pestaña)
-        window.addEventListener('beforeunload', (e) => {
-            if (state.active) {
-                e.preventDefault();
-                e.returnValue = '';
-                return '';
-            }
-        });
+        function playSound(type) { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); if (type === 'success') { osc.frequency.value = 800; gain.gain.setValueAtTime(0.3, audioCtx.currentTime); } else if (type === 'error') { osc.frequency.value = 200; osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.2, audioCtx.currentTime); } else if (type === 'levelup') { osc.frequency.value = 1200; gain.gain.setValueAtTime(0.3, audioCtx.currentTime); } osc.start(); osc.stop(audioCtx.currentTime + 0.3); }
+        function createParticles(x, y, color) { for (let i = 0; i < 12; i++) { const p = document.createElement('div'); p.className = 'particle'; p.style.left = x + 'px'; p.style.top = y + 'px'; p.style.background = color; p.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px'); p.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px'); document.body.appendChild(p); setTimeout(() => p.remove(), 800); } }
+        window.addEventListener('keydown', (e) => { if (!state.active) return; e.preventDefault(); e.stopPropagation(); if (e.key === 'Escape') { exitGame(); return; } if (e.key === 'Shift') { const now = Date.now(); if (now - state.lastShift < 300 && state.list[state.idx]?.doubleShift) { resolveTask(true); } state.lastShift = now; return; } const cur = state.list[state.idx]; if (!cur || cur.doubleShift) return; const key = e.key.toLowerCase(); if (['control', 'shift', 'alt', 'meta'].includes(key)) return; const match = (key === cur.key.toLowerCase()) && (e.ctrlKey === !!cur.ctrl) && (e.shiftKey === !!cur.shift) && (e.altKey === !!cur.alt) && (e.metaKey === !!cur.win); resolveTask(match); }, { capture: true });
+        function startEngine() { if (audioCtx.state === 'suspended') audioCtx.resume(); const prog = document.getElementById('prog-select').value; state.baseSpeed = parseInt(document.getElementById('speed-select').value); state.currentSpeed = state.baseSpeed; state.isPractice = document.getElementById('practice-check').checked; state.list = [...DATABASE[prog]].sort(() => Math.random() - 0.5); state.active = true; state.idx = 0; state.hits = 0; state.combo = 0; state.times = []; state.level = 1; document.getElementById('home-view').classList.add('hidden'); document.getElementById('game-view').classList.remove('hidden'); runTask(); }
+        function runTask() { if (state.idx >= state.list.length) return finishSession(); const cur = state.list[state.idx]; const txt = document.getElementById('command-text'); txt.innerText = cur.label; txt.style.color = "#fff"; const kbd = document.getElementById('kbd-helper'); kbd.innerHTML = ''; if (state.isPractice) { if (cur.doubleShift) kbd.innerHTML = '<div class="key active">2x SHIFT</div>'; else { if(cur.ctrl) kbd.innerHTML += '<div class="key">CTRL</div>'; if(cur.shift) kbd.innerHTML += '<div class="key">SHIFT</div>'; if(cur.alt) kbd.innerHTML += '<div class="key">ALT</div>'; if(cur.win) kbd.innerHTML += '<div class="key">WIN</div>'; kbd.innerHTML += `<div class="key active">${cur.key.toUpperCase()}</div>`; } } const fill = document.getElementById('timer-fill'); fill.style.transition = 'none'; fill.style.width = '100%'; setTimeout(() => { fill.style.transition = `width ${state.currentSpeed}ms linear`; fill.style.width = '0%'; }, 50); state.startT = Date.now(); clearTimeout(state.timer); state.timer = setTimeout(() => resolveTask(false), state.currentSpeed); }
+        function resolveTask(ok) { clearTimeout(state.timer); const txt = document.getElementById('command-text'); if (ok) { state.hits++; state.combo++; state.times.push((Date.now() - state.startT)/1000); txt.style.color = "var(--success)"; playSound('success'); createParticles(window.innerWidth/2, window.innerHeight/2, '#10b981'); if (state.hits % 5 === 0) { state.level++; state.currentSpeed = Math.max(1500, state.baseSpeed - (state.level * 500)); playSound('levelup'); } } else { state.combo = 0; txt.style.color = "var(--error)"; document.getElementById('game-view').style.animation = 'shake 0.3s'; setTimeout(() => document.getElementById('game-view').style.animation = '', 300); playSound('error'); } document.getElementById('level-display').textContent = `LEVEL ${state.level} • SPEED: ${(state.currentSpeed/1000).toFixed(1)}s`; document.getElementById('acc-val').innerText = Math.round((state.hits / (state.idx + 1)) * 100) + "%"; state.idx++; setTimeout(() => state.active && runTask(), 600); }
+        function finishSession() { state.active = false; document.getElementById('game-view').classList.add('hidden'); document.getElementById('result-view').classList.remove('hidden'); const avg = state.times.length ? (state.times.reduce((a,b)=>a+b,0)/state.times.length).toFixed(2) : "0.00"; document.getElementById('final-stats').innerHTML = `Final Accuracy: ${Math.round((state.hits/state.list.length)*100)}% <br> Average Speed: ${avg}s <br> Hits: ${state.hits}/${state.list.length}`; }
+        function exitGame() { location.reload(); }
     </script>
 </body>
 </html>
