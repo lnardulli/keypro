@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/.git/logs/HEAD">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/.git/logs/HEAD" />
+              <option name="originalContent" value="0000000000000000000000000000000000000000 081270cbe6fa88832b838a7988067c09fd75a513 Leandro Nardulli &lt;Leandro Nardulli@DESKTOP-A58RO4Q.(none)&gt; 1769198199 +0100&#9;clone: from https://github.com/lnardulli/keypro.git&#10;081270cbe6fa88832b838a7988067c09fd75a513 081270cbe6fa88832b838a7988067c09fd75a513 Leandro Nardulli &lt;Leandro Nardulli@DESKTOP-A58RO4Q.(none)&gt; 1769198218 +0100&#9;checkout: moving from main to develop&#10;081270cbe6fa88832b838a7988067c09fd75a513 bbc6e36ca8c91130e3b75df5a60d1e920ef42790 Leandro Nardulli &lt;leandro.nardulli@gmail.com&gt; 1769281841 +0100&#9;commit: Add models, and structure of project&#10;" />
+              <option name="updatedContent" value="0000000000000000000000000000000000000000 081270cbe6fa88832b838a7988067c09fd75a513 Leandro Nardulli &lt;Leandro Nardulli@DESKTOP-A58RO4Q.(none)&gt; 1769198199 +0100&#9;clone: from https://github.com/lnardulli/repository.git&#10;081270cbe6fa88832b838a7988067c09fd75a513 081270cbe6fa88832b838a7988067c09fd75a513 Leandro Nardulli &lt;Leandro Nardulli@DESKTOP-A58RO4Q.(none)&gt; 1769198218 +0100&#9;checkout: moving from main to develop&#10;081270cbe6fa88832b838a7988067c09fd75a513 bbc6e36ca8c91130e3b75df5a60d1e920ef42790 Leandro Nardulli &lt;leandro.nardulli@gmail.com&gt; 1769281841 +0100&#9;commit: Add models, and structure of project" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

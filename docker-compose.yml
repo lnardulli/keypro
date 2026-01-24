@@ -1,35 +1,35 @@
-version: '3.8'
+name: frenzykey  # <-- Esto forzará el nombre del proyecto
 
 services:
-  frontend:
-    build: .
-    ports:
-      - "8000:80"
+  db:
+    image: postgres:15-alpine
+    container_name: frenzykey_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: frenzy_password
+      POSTGRES_DB: frenzykey_db
+    volumes:
+      - frenzy_db_data:/var/lib/postgresql/data
     restart: unless-stopped
 
-  # Placeholder for backend service (e.g., Node.js, Python/FastAPI)
-  # Uncomment and configure when backend is developed
-  # backend:
-  #   build: ./backend
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - db
-  #   restart: unless-stopped
+  backend:
+    build: ./backend
+    container_name: frenzykey_backend
+    environment:
+      - DATABASE_URL=postgresql://admin:frenzy_password@db:5432/frenzykey_db
+    depends_on:
+      - db
+    restart: unless-stopped
 
-  # Placeholder for database service (e.g., PostgreSQL)
-  # Uncomment and configure when database is decided
-  # db:
-  #   image: postgres:13-alpine
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data/
-  #   environment:
-  #     POSTGRES_DB: frenzyKey_db
-  #     POSTGRES_USER: user
-  #     POSTGRES_PASSWORD: password
-  #   ports:
-  #     - "5432:5432"
-  #   restart: unless-stopped
+  frontend:
+    build: ./frontend
+    container_name: frenzykey_frontend
+    ports:
+      - "8000:80"  # <--- Asegúrate de que diga esto
+    #volumes:
+    #  - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
 
-# volumes:
-#   db_data:
+volumes:
+  frenzy_db_data:

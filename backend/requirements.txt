@@ -1,0 +1,18 @@
+# Framework principal
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Base de Datos y ORM
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+
+# Validación de datos y Variables de entorno
+pydantic[email]==2.5.3
+python-dotenv==1.0.1
+
+# Autenticación (Firebase)
+firebase-admin==6.4.0
+
+# Utilidades y Logs
+loguru==0.7.2
+python-multipart==0.0.6

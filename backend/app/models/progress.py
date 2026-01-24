@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Float, Boolean
 from ..database import Base
 
-class UserProgress(Base):
+class Progress(Base):
     __tablename__ = "progress"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
