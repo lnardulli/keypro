@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "8000:80"
+    restart: unless-stopped
+
+  # Placeholder for backend service (e.g., Node.js, Python/FastAPI)
+  # Uncomment and configure when backend is developed
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #   restart: unless-stopped
+
+  # Placeholder for database service (e.g., PostgreSQL)
+  # Uncomment and configure when database is decided
+  # db:
+  #   image: postgres:13-alpine
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_DB: frenzyKey_db
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+
+# volumes:
+#   db_data:

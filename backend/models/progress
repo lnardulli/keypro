@@ -1,0 +1,16 @@
+from sqlalchemy import Column, Integer, ForeignKey, Float, Boolean
+from ..database import Base
+
+class UserProgress(Base):
+    __tablename__ = "progress"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    level_id = Column(Integer, ForeignKey("levels.id"))
+
+    # Aquí guardamos en qué reto se quedó
+    current_shortcut_order = Column(Integer, default=1)
+
+    # Estadísticas para el ranking
+    best_time_seconds = Column(Float, nullable=True)
+    stars = Column(Integer, default=0) # 1, 2 o 3 estrellas según velocidad
+    lives_remaining = Column(Integer, default=3)
